@@ -4,7 +4,8 @@ import {TreeItem} from "./interfaces/tree-item";
 
 @Component({
   selector: 'app-root',
-    imports: [TreeComponent],
+  standalone: true,
+  imports: [TreeComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

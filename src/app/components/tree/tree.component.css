@@ -1,0 +1,8 @@
+:host ::ng-deep .tree-gray {
+  font-style: italic;
+}
+
+:host ::ng-deep .tree-yellow {
+  color: #ffc107;
+  font-weight: bold;
+}

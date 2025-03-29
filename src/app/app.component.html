@@ -1,5 +1,17 @@
-<app-tree [data]="data" [itemTemplate]="itemTemplate"></app-tree>
+<h2>Серое дерево (курсив)</h2>
+<app-tree
+  [data]="data"
+  [itemTemplate]="itemTemplate"
+  treeStyle="gray">
+</app-tree>
+
+<h2>Желтое дерево (жирный)</h2>
+<app-tree
+  [data]="data"
+  [itemTemplate]="itemTemplate"
+  treeStyle="yellow">
+</app-tree>
 
 <ng-template #itemTemplate let-item>
-    <div>{{ item.name }}</div>
+  <div>{{ item.name }}</div>
 </ng-template>

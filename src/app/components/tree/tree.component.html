@@ -1,21 +1,20 @@
 @for (item of data; track item.id) {
-  <div class="tree-node" [style.margin-left.px]="level * 20">
-    <ng-container
-      *ngTemplateOutlet="itemTemplate || defaultTemplate; context: { $implicit: item }">
-    </ng-container>
+  <div [style.margin-left.px]="level * 20">
+    <div [class]="treeStyle === 'gray' ? 'tree-gray' : 'tree-yellow'">
+      <ng-container *ngTemplateOutlet="itemTemplate || defaultTemplate; context: { $implicit: item }"></ng-container>
+    </div>
 
     @if (hasChildren(item)) {
       <app-tree
         [data]="item.children || []"
         [itemTemplate]="itemTemplate"
-        [level]="level + 1">
+        [level]="level + 1"
+        [treeStyle]="treeStyle">
       </app-tree>
     }
   </div>
 }
 
 <ng-template #defaultTemplate let-item>
-  <div class="default-item">
-    {{ item.name }}
-  </div>
+  <div>{{ item.name }}</div>
 </ng-template>
