@@ -1,11 +1,21 @@
-@for (item of data; track item.name) {
-    <div class="tree-node" [ngStyle]="{ 'margin-left': getIndent(level) }">
-        <ng-container *ngTemplateOutlet="itemTemplate; context: { $implicit: item }"></ng-container>
+@for (item of data; track item.id) {
+  <div class="tree-node" [style.margin-left.px]="level * 20">
+    <ng-container
+      *ngTemplateOutlet="itemTemplate || defaultTemplate; context: { $implicit: item }">
+    </ng-container>
 
-        @if (hasChildren(item)) {
-            <div>
-                <app-tree [data]="item.children || []" [itemTemplate]="itemTemplate" [level]="level + 1"></app-tree>
-            </div>
-        }
-    </div>
+    @if (hasChildren(item)) {
+      <app-tree
+        [data]="item.children || []"
+        [itemTemplate]="itemTemplate"
+        [level]="level + 1">
+      </app-tree>
+    }
+  </div>
 }
+
+<ng-template #defaultTemplate let-item>
+  <div class="default-item">
+    {{ item.name }}
+  </div>
+</ng-template>

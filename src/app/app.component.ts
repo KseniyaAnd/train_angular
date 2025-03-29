@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 import {TreeComponent} from "./components/tree/tree.component";
 import {TreeItem} from "./interfaces/tree-item";
 
 @Component({
   selector: 'app-root',
-    imports: [RouterOutlet, TreeComponent],
+    imports: [TreeComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
