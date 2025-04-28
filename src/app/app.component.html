@@ -1,5 +1,6 @@
 <app-tree
   [data]="data"
   [(selectedIds)]="selectedIds"
-  (selectionChange)="selectedIds.set($event)">
+  [treeStyle]="'gray'"
+  (selectedIdsChange)="onSelectionChange($event)">
 </app-tree>

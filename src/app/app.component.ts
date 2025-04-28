@@ -1,11 +1,12 @@
-import {Component, signal} from '@angular/core';
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { TreeComponent } from './components/tree/tree.component';
 import { TreeItem } from './interfaces/tree-item';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [TreeComponent],
+  imports: [CommonModule, TreeComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
@@ -36,5 +37,9 @@ export class AppComponent {
     },
   ];
 
-  selectedIds = signal<string[]>([]);
+  selectedIds: string[] = [];
+
+  onSelectionChange(newSelection: string[]): void {
+    this.selectedIds = newSelection;
+  }
 }
