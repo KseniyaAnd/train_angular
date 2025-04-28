@@ -1,20 +1,32 @@
-@for (item of data; track item.id) {
+<ng-template #treeNode let-item let-level="level" let-treeStyle="treeStyle">
   <div [style.margin-left.px]="level * 20">
     <div [class]="treeStyle === 'gray' ? 'tree-gray' : 'tree-yellow'">
-      <ng-container *ngTemplateOutlet="itemTemplate || defaultTemplate; context: { $implicit: item }"></ng-container>
+      <input type="checkbox"
+             [checked]="isChecked(item)"
+             [indeterminate]="isIndeterminate(item)"
+             (change)="onCheckboxChange(item, $event)"/>
+      <span>{{ item.name }}</span>
     </div>
 
     @if (hasChildren(item)) {
-      <app-tree
-        [data]="item.children || []"
-        [itemTemplate]="itemTemplate"
-        [level]="level + 1"
-        [treeStyle]="treeStyle">
-      </app-tree>
+      <ng-container *ngTemplateOutlet="treeNode;
+        context: {
+          $implicit: item,
+          level: level + 1,
+          treeStyle: treeStyle
+        }">
+      </ng-container>
     }
   </div>
-}
-
-<ng-template #defaultTemplate let-item>
-  <div>{{ item.name }}</div>
 </ng-template>
+
+@for (item of data(); track item.id) {
+  <ng-container *ngTemplateOutlet="treeNode;
+    context: {
+      $implicit: item,
+      level: level(),
+      treeStyle: treeStyle()
+    }">
+  </ng-container>
+}
+<!--https://stackoverflow.com/questions/61147987/rendering-recursive-html-using-ngtemplateoutlet-in-angular-->

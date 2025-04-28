@@ -1,13 +1,13 @@
-import { Component } from '@angular/core';
-import {TreeComponent} from "./components/tree/tree.component";
-import {TreeItem} from "./interfaces/tree-item";
+import {Component, signal} from '@angular/core';
+import { TreeComponent } from './components/tree/tree.component';
+import { TreeItem } from './interfaces/tree-item';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [TreeComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
   data: TreeItem[] = [
@@ -35,4 +35,6 @@ export class AppComponent {
       ],
     },
   ];
+
+  selectedIds = signal<string[]>([]);
 }

@@ -1,17 +1,5 @@
-<h2>Серое дерево (курсив)</h2>
 <app-tree
   [data]="data"
-  [itemTemplate]="itemTemplate"
-  treeStyle="gray">
+  [(selectedIds)]="selectedIds"
+  (selectionChange)="selectedIds.set($event)">
 </app-tree>
-
-<h2>Желтое дерево (жирный)</h2>
-<app-tree
-  [data]="data"
-  [itemTemplate]="itemTemplate"
-  treeStyle="yellow">
-</app-tree>
-
-<ng-template #itemTemplate let-item>
-  <div>{{ item.name }}</div>
-</ng-template>
