@@ -1,6 +1,10 @@
 <app-tree
   [data]="data"
-  [(selectedIds)]="selectedIds"
+  [(ngModel)]="treeControl.value"
   [treeStyle]="'gray'"
-  (selectedIdsChange)="onSelectionChange($event)">
+  [disabled]="disabled">
 </app-tree>
+
+<button (click)="toggleDisabled()">Toggle Disabled</button>
+
+<p>Selected IDs: {{ treeControl.value | json }}</p>

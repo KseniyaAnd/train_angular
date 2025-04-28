@@ -1,39 +1,59 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { TreeItem } from '../../interfaces/tree-item';
+import { TreeItem, ITreeComponent } from '../../interfaces/tree-item';
 
 @Component({
   selector: 'app-tree-node',
   templateUrl: './tree-node.component.html',
   styleUrls: ['./tree-node.component.css'],
   standalone: true,
-  imports: [CommonModule, FormsModule]
+  imports: [CommonModule, FormsModule],
 })
-export class TreeNodeComponent {
+export class TreeNodeComponent implements ITreeComponent {
   @Input() node!: TreeItem;
   @Input() level: number = 0;
   @Input() treeStyle: 'gray' | 'yellow' = 'gray';
   @Input() selectedIds: string[] = [];
+  @Input() disabled = false;
   @Output() selectionChange = new EventEmitter<string[]>();
 
-  isChecked(): boolean {
-    return this.selectedIds.includes(this.node.id);
+  get id(): string {
+    return this.node.id;
   }
 
-  hasChildren(): boolean {
-    return !!(this.node.children && this.node.children.length > 0);
+  get isSelected(): boolean {
+    return this.selectedIds.includes(this.id);
   }
 
-  onCheckboxChange(event: Event): void {
-    const checked = (event.target as HTMLInputElement).checked;
-    this.toggleCheckbox(checked);
+  get isIndeterminate(): boolean {
+    if (!this.node.children?.length) return false;
+    const selectedChildren = this.node.children.filter(child =>
+      this.selectedIds.includes(child.id)
+    );
+    return selectedChildren.length > 0 && selectedChildren.length < this.node.children.length;
   }
 
-  toggleCheckbox(checked: boolean): void {
+  toggleSelection(checked: boolean): void {
+    if (this.disabled) return;
     const newSelection = [...this.selectedIds];
     this.updateSelection(this.node, checked, newSelection);
     this.selectionChange.emit(newSelection);
+  }
+
+  getSelectedIds(): string[] {
+    const selectedIds: string[] = [];
+    this.collectSelectedIds(this.node, selectedIds);
+    return selectedIds;
+  }
+
+  private collectSelectedIds(node: TreeItem, selectedIds: string[]): void {
+    if (this.selectedIds.includes(node.id)) {
+      selectedIds.push(node.id);
+    }
+    if (node.children) {
+      node.children.forEach(child => this.collectSelectedIds(child, selectedIds));
+    }
   }
 
   private updateSelection(node: TreeItem, checked: boolean, selection: string[]): void {
@@ -53,11 +73,12 @@ export class TreeNodeComponent {
     }
   }
 
-  isIndeterminate(): boolean {
-    if (this.node.children) {
-      const selectedChildren = this.node.children.filter(child => this.selectedIds.includes(child.id));
-      return selectedChildren.length > 0 && selectedChildren.length < this.node.children.length;
-    }
-    return false;
+  onCheckboxChange(event: Event): void {
+    const checked = (event.target as HTMLInputElement).checked;
+    this.toggleSelection(checked);
+  }
+
+  hasChildren(): boolean {
+    return !!(this.node.children && this.node.children.length > 0);
   }
 }

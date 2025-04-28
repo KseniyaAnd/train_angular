@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TreeComponent } from './components/tree/tree.component';
 import { TreeItem } from './interfaces/tree-item';
+import { FormsModule, ReactiveFormsModule, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, TreeComponent],
+  imports: [CommonModule, TreeComponent, FormsModule, ReactiveFormsModule],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
@@ -37,9 +38,15 @@ export class AppComponent {
     },
   ];
 
-  selectedIds: string[] = [];
+  treeControl = new FormControl<string[]>(['1.1.1', '1.2']);
+  disabled = false;
 
-  onSelectionChange(newSelection: string[]): void {
-    this.selectedIds = newSelection;
+  toggleDisabled(): void {
+    this.disabled = !this.disabled;
+    if (this.disabled) {
+      this.treeControl.disable();
+    } else {
+      this.treeControl.enable();
+    }
   }
 }
