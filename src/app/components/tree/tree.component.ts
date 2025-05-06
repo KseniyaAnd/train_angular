@@ -20,8 +20,6 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/f
 })
 export class TreeComponent implements ControlValueAccessor {
   @Input() data: TreeItem[] = [];
-  @Input() treeStyle: 'gray' | 'yellow' = 'gray';
-  @Input() level: number = 0;
 
   selectedIds: string[] = [];
   disabled = false;
@@ -41,11 +39,12 @@ export class TreeComponent implements ControlValueAccessor {
     this.onTouched = fn;
   }
 
-  setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
+  setDisabledState(state: boolean): void {
+    this.disabled = state;
   }
 
   onSelectionChange(newSelection: string[]): void {
+    console.log(newSelection);
     this.selectedIds = newSelection;
     this.onChange(newSelection);
     this.onTouched();

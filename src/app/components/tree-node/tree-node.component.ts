@@ -13,20 +13,19 @@ import { TreeItem, ITreeComponent } from '../../interfaces/tree-item';
 export class TreeNodeComponent implements ITreeComponent {
   @Input() node!: TreeItem;
   @Input() level: number = 0;
-  @Input() treeStyle: 'gray' | 'yellow' = 'gray';
   @Input() selectedIds: string[] = [];
   @Input() disabled = false;
   @Output() selectionChange = new EventEmitter<string[]>();
 
-  get id(): string {
+  id(): string {
     return this.node.id;
   }
 
-  get isSelected(): boolean {
-    return this.selectedIds.includes(this.id);
+  isSelected(): boolean {
+    return this.selectedIds.includes(this.node.id);
   }
 
-  get isIndeterminate(): boolean {
+  isIndeterminate(): boolean {
     if (!this.node.children?.length) return false;
     const selectedChildren = this.node.children.filter(child =>
       this.selectedIds.includes(child.id)
@@ -39,21 +38,6 @@ export class TreeNodeComponent implements ITreeComponent {
     const newSelection = [...this.selectedIds];
     this.updateSelection(this.node, checked, newSelection);
     this.selectionChange.emit(newSelection);
-  }
-
-  getSelectedIds(): string[] {
-    const selectedIds: string[] = [];
-    this.collectSelectedIds(this.node, selectedIds);
-    return selectedIds;
-  }
-
-  private collectSelectedIds(node: TreeItem, selectedIds: string[]): void {
-    if (this.selectedIds.includes(node.id)) {
-      selectedIds.push(node.id);
-    }
-    if (node.children) {
-      node.children.forEach(child => this.collectSelectedIds(child, selectedIds));
-    }
   }
 
   private updateSelection(node: TreeItem, checked: boolean, selection: string[]): void {

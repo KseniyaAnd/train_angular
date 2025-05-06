@@ -1,11 +1,8 @@
 @for (item of data; track item.id) {
   <app-tree-node
     [node]="item"
-    [level]="level"
-    [treeStyle]="treeStyle"
     [selectedIds]="selectedIds"
     [disabled]="disabled"
     (selectionChange)="onSelectionChange($event)">
   </app-tree-node>
 }
-<!--https://stackoverflow.com/questions/61147987/rendering-recursive-html-using-ngtemplateoutlet-in-angular-->

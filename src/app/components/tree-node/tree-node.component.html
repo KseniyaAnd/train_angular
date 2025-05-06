@@ -1,5 +1,5 @@
 <div [style.margin-left.px]="level * 20">
-  <div [class]="treeStyle === 'gray' ? 'tree-gray' : 'tree-yellow'">
+  <div>
     <input type="checkbox"
            [checked]="isSelected"
            [indeterminate]="isIndeterminate"
@@ -13,7 +13,6 @@
       <app-tree-node
         [node]="child"
         [level]="level + 1"
-        [treeStyle]="treeStyle"
         [selectedIds]="selectedIds"
         [disabled]="disabled"
         (selectionChange)="selectionChange.emit($event)">
