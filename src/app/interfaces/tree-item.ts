@@ -3,9 +3,10 @@ export interface TreeItem {
   name: string;
   children?: TreeItem[];
 }
+
 export interface ITreeComponent {
-  id(): string;
-  isSelected(): boolean;
-  isIndeterminate(): boolean;
+  id: string;
+  isSelected: boolean;
+  isIndeterminate: boolean;
   toggleSelection(checked: boolean): void;
 }

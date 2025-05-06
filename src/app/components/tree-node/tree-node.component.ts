@@ -17,15 +17,34 @@ export class TreeNodeComponent implements ITreeComponent {
   @Input() disabled = false;
   @Output() selectionChange = new EventEmitter<string[]>();
 
-  id(): string {
+  get id(): string {
     return this.node.id;
   }
 
-  isSelected(): boolean {
-    return this.selectedIds.includes(this.node.id);
+  get isSelected(): boolean {
+    if (!this.node.children || this.node.children.length === 0) {
+      return this.selectedIds.includes(this.node.id);
+    }
+
+    return this.node.children.every(child =>
+      this.selectedIds.includes(child.id) ||
+      this.isNodeFullySelected(child)
+    );
   }
 
-  isIndeterminate(): boolean {
+  private isNodeFullySelected(node: TreeItem): boolean {
+    if (!node.children || node.children.length === 0) {
+      return this.selectedIds.includes(node.id);
+    }
+
+    return node.children.every(child =>
+      this.selectedIds.includes(child.id) ||
+      this.isNodeFullySelected(child)
+    );
+  }
+
+
+  get isIndeterminate(): boolean {
     if (!this.node.children?.length) return false;
     const selectedChildren = this.node.children.filter(child =>
       this.selectedIds.includes(child.id)
