@@ -36,6 +36,26 @@ export class AppComponent {
         { id: '2.2', name: 'Подузел 2.2' },
       ],
     },
+    {
+      id: '3',
+      name: 'Узел 3',
+      children: [
+        { id: '3.1',
+          name: 'Подузел 3.1',
+          children: [
+            { id: '3.1.1',
+              name: 'Подузел 3.1.1',
+              children: [
+                { id: '3.1.1.1', name: 'Подузел 3.1.1.1',  },
+                { id: '3.1.2.1', name: 'Подузел 3.1.2.1' },
+              ],
+            },
+            ],
+        },
+        { id: '3.1.2', name: 'Подузел 3.1.2' },
+        { id: '3.2', name: 'Подузел 3.2' },
+      ],
+    },
   ];
 
   treeControl = new FormControl<string[]>(['1.1.1', '1.2']);
