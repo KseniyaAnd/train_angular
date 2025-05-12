@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { TreeItem, ITreeComponent } from '../../interfaces/tree-item';
+import { TreeItem } from '../../interfaces/tree-item';
 
 @Component({
   selector: 'app-tree-node',
@@ -10,7 +10,7 @@ import { TreeItem, ITreeComponent } from '../../interfaces/tree-item';
   standalone: true,
   imports: [CommonModule, FormsModule],
 })
-export class TreeNodeComponent implements ITreeComponent {
+export class TreeNodeComponent {
   @Input() node!: TreeItem;
   @Input() level: number = 0;
   @Input() selectedIds: string[] = [];
@@ -43,11 +43,10 @@ export class TreeNodeComponent implements ITreeComponent {
     );
   }
 
-
   get isIndeterminate(): boolean {
     if (!this.node.children?.length) return false;
     const selectedChildren = this.node.children.filter(child =>
-      this.selectedIds.includes(child.id)
+      this.selectedIds.includes(child.id) || this.isNodeFullySelected(child)
     );
     return selectedChildren.length > 0 && selectedChildren.length < this.node.children.length;
   }
@@ -56,6 +55,7 @@ export class TreeNodeComponent implements ITreeComponent {
     if (this.disabled) return;
     const newSelection = [...this.selectedIds];
     this.updateSelection(this.node, checked, newSelection);
+    this.checkParentSelection(this.node, newSelection);
     this.selectionChange.emit(newSelection);
   }
 
@@ -72,8 +72,32 @@ export class TreeNodeComponent implements ITreeComponent {
     }
 
     if (node.children) {
-      node.children.forEach(child => this.updateSelection(child, checked, selection));
+      node.children.forEach(child => {
+        child.parent = node;
+        this.updateSelection(child, checked, selection);
+      });
     }
+  }
+
+  private checkParentSelection(node: TreeItem, selection: string[]): void {
+    if (!node.parent) return;
+
+    const allChildrenSelected = node.parent.children?.every(child =>
+      selection.includes(child.id) || this.isNodeFullySelected(child)
+    );
+
+    if (allChildrenSelected) {
+      if (!selection.includes(node.parent.id)) {
+        selection.push(node.parent.id);
+      }
+    } else {
+      const index = selection.indexOf(node.parent.id);
+      if (index > -1) {
+        selection.splice(index, 1);
+      }
+    }
+
+    this.checkParentSelection(node.parent, selection);
   }
 
   onCheckboxChange(event: Event): void {

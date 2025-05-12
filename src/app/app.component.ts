@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TreeComponent } from './components/tree/tree.component';
 import { TreeItem } from './interfaces/tree-item';
@@ -11,7 +11,7 @@ import { FormsModule, ReactiveFormsModule, FormControl } from '@angular/forms';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   data: TreeItem[] = [
     {
       id: '1',
@@ -36,31 +36,23 @@ export class AppComponent {
         { id: '2.2', name: 'Подузел 2.2' },
       ],
     },
-    {
-      id: '3',
-      name: 'Узел 3',
-      children: [
-        { id: '3.1',
-          name: 'Подузел 3.1',
-          children: [
-            { id: '3.1.1',
-              name: 'Подузел 3.1.1',
-              children: [
-                { id: '3.1.1.1', name: 'Подузел 3.1.1.1',  },
-                { id: '3.1.2.1', name: 'Подузел 3.1.2.1' },
-              ],
-            },
-            ],
-        },
-        { id: '3.1.2', name: 'Подузел 3.1.2' },
-        { id: '3.2', name: 'Подузел 3.2' },
-      ],
-    },
   ];
 
   treeControl = new FormControl<string[]>(['1.1.1', '1.2']);
-
   disabled = false;
+
+  ngOnInit() {
+    this.setParentReferences(this.data);
+  }
+
+  private setParentReferences(nodes: TreeItem[], parent?: TreeItem): void {
+    nodes.forEach(node => {
+      node.parent = parent;
+      if (node.children) {
+        this.setParentReferences(node.children, node);
+      }
+    });
+  }
 
   toggleDisabled(): void {
     this.disabled = !this.disabled;
