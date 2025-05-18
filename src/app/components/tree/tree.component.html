@@ -1,7 +1,11 @@
+<input type="text" [(ngModel)]="search" placeholder="Поиск..." class="search-input" />
+
 @for (item of data; track item.id) {
   <app-tree-node
     [node]="item"
+    [level]="0"
     [selectedIds]="selectedIds"
+    [search]="search"
     [disabled]="disabled"
     (selectionChange)="onSelectionChange($event)">
   </app-tree-node>

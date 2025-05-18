@@ -2,13 +2,14 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TreeItem } from '../../interfaces/tree-item';
+import {SearchHighlightDirective} from '../../directives/search-highlight.directive';
 
 @Component({
   selector: 'app-tree-node',
   templateUrl: './tree-node.component.html',
   styleUrls: ['./tree-node.component.css'],
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, SearchHighlightDirective],
 })
 export class TreeNodeComponent {
   @Input() node!: TreeItem;
@@ -16,6 +17,7 @@ export class TreeNodeComponent {
   @Input() selectedIds: string[] = [];
   @Input() disabled = false;
   @Output() selectionChange = new EventEmitter<string[]>();
+  @Input() search: string = '';
 
   get id(): string {
     return this.node.id;

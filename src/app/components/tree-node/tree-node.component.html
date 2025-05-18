@@ -1,12 +1,14 @@
-<div [style.margin-left.px]="level * 20">
-  <div>
-    <input type="checkbox"
-           [checked]="isSelected"
-           [indeterminate]="isIndeterminate"
-           (change)="onCheckboxChange($event)"
-           [disabled]="disabled"/>
-    <span>{{ node.name }}</span>
-  </div>
+<div [style.margin-left.px]="level * 20"
+     [appSearchHighlight]="search"
+     [label]="node.name"
+     [disabled]="disabled">
+
+  <input type="checkbox"
+         [checked]="isSelected"
+         [indeterminate]="isIndeterminate"
+         (change)="onCheckboxChange($event)"
+         [disabled]="disabled"/>
+  <span>{{ node.name }}</span>
 
   @if (hasChildren()) {
     @for (child of node.children; track child.id) {

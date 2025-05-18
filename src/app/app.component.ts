@@ -18,27 +18,27 @@ export class AppComponent implements OnInit {
       name: 'Узел 1',
       children: [
         {
-          id: '1.1',
-          name: 'Подузел 1.1',
+          id: '1-1',
+          name: 'Подузел 1-1',
           children: [
-            { id: '1.1.1', name: 'Подузел 1.1.1' },
-            { id: '1.1.2', name: 'Подузел 1.1.2' },
+            { id: '1-1-1', name: 'Подузел 1-1-1' },
+            { id: '1-1-2', name: 'Подузел 1-1-2' },
           ],
         },
-        { id: '1.2', name: 'Подузел 1.2' },
+        { id: '1-2', name: 'Подузел 1-2' },
       ],
     },
     {
       id: '2',
       name: 'Узел 2',
       children: [
-        { id: '2.1', name: 'Подузел 2.1' },
-        { id: '2.2', name: 'Подузел 2.2' },
+        { id: '2-1', name: 'Подузел 2-1' },
+        { id: '2-2', name: 'Подузел 2-2' },
       ],
     },
   ];
 
-  treeControl = new FormControl<string[]>(['1.1.1', '1.2']);
+  treeControl = new FormControl<string[]>(['1-1-1', '1-2']);
   disabled = false;
 
   ngOnInit() {

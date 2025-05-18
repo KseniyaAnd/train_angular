@@ -23,6 +23,7 @@ export class TreeComponent implements ControlValueAccessor {
 
   selectedIds: string[] = [];
   disabled = false;
+  search: string = '';
 
   private onChange: (value: string[]) => void = () => {};
   private onTouched: () => void = () => {};
