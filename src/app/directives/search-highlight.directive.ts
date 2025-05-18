@@ -5,17 +5,16 @@ import { Directive, ElementRef, Input, OnChanges, Renderer2, SimpleChanges } fro
 })
 export class SearchHighlightDirective implements OnChanges {
   @Input('appSearchHighlight') searchTerm: string = '';
-  @Input() label: string = '';
   @Input() disabled = false;
 
   constructor(private el: ElementRef, private renderer: Renderer2) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     const term = this.searchTerm?.trim().toLowerCase();
-    const labelText = this.label?.trim().toLowerCase();
+    const elementText = this.el.nativeElement.textContent?.trim().toLowerCase() || '';
 
     const hasSearch = term?.length > 0;
-    const matches = hasSearch && labelText.includes(term);
+    const matches = hasSearch && elementText.includes(term);
 
     if (matches) {
       this.renderer.setStyle(this.el.nativeElement, 'background-color', '#d2f8d2'); // зелёный
