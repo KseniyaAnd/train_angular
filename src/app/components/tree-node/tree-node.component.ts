@@ -3,13 +3,14 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TreeItem } from '../../interfaces/tree-item';
 import {SearchHighlightDirective} from '../../directives/search-highlight.directive';
+import {DefaultValuePipe} from '../pipes/default-value.pipe';
 
 @Component({
   selector: 'app-tree-node',
   templateUrl: './tree-node.component.html',
   styleUrls: ['./tree-node.component.css'],
   standalone: true,
-  imports: [CommonModule, FormsModule, SearchHighlightDirective],
+  imports: [CommonModule, FormsModule, SearchHighlightDirective, DefaultValuePipe],
 })
 export class TreeNodeComponent {
   @Input() node!: TreeItem;

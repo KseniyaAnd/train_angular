@@ -8,7 +8,7 @@
          [indeterminate]="isIndeterminate"
          (change)="onCheckboxChange($event)"
          [disabled]="disabled"/>
-  <span>{{ node.name }}</span>
+  <span>{{ node.name | defaultValue:'Имя не определено' }}</span>
 
   @if (hasChildren()) {
     @for (child of node.children; track child.id) {

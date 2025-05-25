@@ -32,7 +32,7 @@ export class AppComponent implements OnInit {
       id: '2',
       name: 'Узел 2',
       children: [
-        { id: '2-1', name: 'Подузел 2-1' },
+        { id: '2-1', name: null },
         { id: '2-2', name: 'Подузел 2-2' },
       ],
     },
